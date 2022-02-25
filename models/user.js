@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, DATE
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -24,6 +24,14 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         isEmail:true
       }
+    },
+    followers:{
+      type:DataTypes.INTEGER,
+      defaultValue:0
+    },
+    following:{
+      type:DataTypes.INTEGER,
+      defaultValue:0
     },
     password: {
       type:DataTypes.STRING,

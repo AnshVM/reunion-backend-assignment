@@ -22,6 +22,8 @@ module.exports = {
       password: {
         type:Sequelize.STRING,
       },
+      followers:Sequelize.INTEGER,
+      following:Sequelize.INTEGER,
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
