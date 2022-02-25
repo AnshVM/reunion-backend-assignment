@@ -1,4 +1,4 @@
-const {Post,User,Like} = require('../models')
+const {Post,User,Like,Comment} = require('../models')
 
 exports.createPost = async(req,res) => {
     const userId = req.id
@@ -61,15 +61,29 @@ exports.unlikePost = async(req,res)=>{
 exports.deletePost = async(req,res) => {
     try{
         const post = await Post.findOne({where:{id:Number(req.params.id)}})
-        console.log(post.userId)
-        console.log(post)
-        console.log(req.id)
         if(post.userId!==Number(req.id)) return res.json("This user is not authenticated to delete this post")
         await post.destroy()
         res.json("Post deleted")
     }catch(err){
         console.log(err)
         res.json(err)
+    }
+}
+
+exports.addComment = async(req,res)=>{
+    const postId = Number(req.params.id)
+    const userId = Number(req.id)
+
+    try{
+        const post = await Post.findOne({where:{id:postId}})
+        if(!post) return res.json("Post not found")
+        const user = await User.findOne({where:{id:userId}})
+        if(!user) return res.json("User not found")
+        const comment = await Comment.create({postId,userId,body:req.body.body})
+        return res.json(comment.id)
+    }catch(err){
+        console.log(err)
+        return res.json(err)
     }
 }
 
