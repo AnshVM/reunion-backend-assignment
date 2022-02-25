@@ -9,11 +9,19 @@ const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
 let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+// if (config.use_env_variable) {
+//   sequelize = new Sequelize(process.env[config.use_env_variable], config);
+// } else {
+//   sequelize = new Sequelize(config.database, config.username, config.password, config);
+// }
+const DB_URL = `postgresql://${process.env.PG_USER}:${process.env.PG_PASSWORD}@${process.env.PG_HOST}:${process.env.PG_PORT}/${process.env.PG_DATABASE}`
+sequelize = new Sequelize(DB_URL, {
+  dialect: 'postgres',
+  protocol: 'postgres',
+  dialectOptions: {
+      ssl: true
+  }
+});
 
 fs
   .readdirSync(__dirname)
@@ -30,6 +38,7 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
+
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
