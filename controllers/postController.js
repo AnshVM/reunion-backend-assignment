@@ -57,3 +57,19 @@ exports.unlikePost = async(req,res)=>{
         res.json(err)
     }
 }
+
+exports.deletePost = async(req,res) => {
+    try{
+        const post = await Post.findOne({where:{id:Number(req.params.id)}})
+        console.log(post.userId)
+        console.log(post)
+        console.log(req.id)
+        if(post.userId!==Number(req.id)) return res.json("This user is not authenticated to delete this post")
+        await post.destroy()
+        res.json("Post deleted")
+    }catch(err){
+        console.log(err)
+        res.json(err)
+    }
+}
+
