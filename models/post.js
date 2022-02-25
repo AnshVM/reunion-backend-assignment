@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING,
       allowNull:false
     },
+    likes:{
+      type:DataTypes.INTEGER,
+      defaultValue:0
+    }
   }, {
     sequelize,
     tableName: 'posts',
