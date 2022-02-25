@@ -14,8 +14,7 @@ let sequelize;
 // } else {
 //   sequelize = new Sequelize(config.database, config.username, config.password, config);
 // }
-const DB_URL = `postgresql://${process.env.PG_USER}:${process.env.PG_PASSWORD}@${process.env.PG_HOST}:${process.env.PG_PORT}/${process.env.PG_DATABASE}`
-sequelize = new Sequelize(DB_URL, {
+sequelize = new Sequelize(process.env.DB_URI, {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
