@@ -103,3 +103,22 @@ exports.getPostById = async(req,res) => {
     }
 }
 
+exports.getAllUserPosts = async(req,res) => {
+    const userId = req.id
+
+    try{
+        let postQuery = (await Post.findAll({where:{id:userId}})).map((post)=>post.dataValues)
+        let posts=[]
+        for(let i=0;i<postQuery.length;i++){
+            const {id,title,body,created_at,likes} = postQuery[i]
+            const comments = (await Comment.findAll({where:{postId:postQuery[i].id}})).map((comment)=>comment.dataValues)
+            posts.push({id,title,desc:body,created_at,comments,likes})
+        }
+        console.log(posts)
+        return res.json(posts)
+
+    }catch(err){
+        console.log(err)
+        return res.json(err)
+    }
+}

@@ -48,3 +48,14 @@ exports.getUser = async(req,res)=>{
         return res.status(500).json(err)
     }
 }
+
+exports.getAllUserPosts = async(req,res) => {
+    const userId = req.id
+
+    try{
+
+    }catch(err){
+        console.log(err)
+        return res.json(err)
+    }
+}
