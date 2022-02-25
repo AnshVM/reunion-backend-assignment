@@ -34,3 +34,17 @@ exports.authenticate = async(req,res)=>{
         return res.status(500).json(err)
     }
 }
+
+exports.getUser = async(req,res)=>{
+    const id = req.id
+    try{
+        const user = await User.findOne({
+            where:{id}
+        })
+        const {username,followers,following} = user
+        res.status(200).json({username,followers,following})
+    }catch(err){
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
