@@ -87,3 +87,19 @@ exports.addComment = async(req,res)=>{
     }
 }
 
+exports.getPostById = async(req,res) => {
+    const id = req.params.id
+    
+    try{
+        const post = await Post.findOne({where:{id}})
+        if(!post) return res.json("Post not found")
+        const {title,body,likes} = post
+        const comments = (await Comment.findAll({where:{postId:id}})).map((comment)=>comment.dataValues)
+        return res.json({title,body,likes,comments:comments.length})
+
+    }catch(err){
+        console.log(err)
+        res.json(err)
+    }
+}
+
