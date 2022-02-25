@@ -34,3 +34,26 @@ exports.likePost = async(req,res)=>{
         res.json(err)
     }
 }
+
+exports.unlikePost = async(req,res)=>{
+    const userId = req.id
+    const postId = req.params.id
+
+    try{
+
+        const like = await Like.findOne({userId,postId})
+        if(!like) return res.json("User has not liked this post")
+
+        await like.destroy()
+
+        const post = await Post.findOne({where:{id:postId}})
+        post.likes--
+        await post.save()
+
+        return res.json(post)
+
+    }catch(err){
+        console.log(err)
+        res.json(err)
+    }
+}
