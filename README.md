@@ -1,5 +1,15 @@
 # reunion-backend-assignment
 
+For requests that require authentication add the token to the Authorization header in the request.
+```
+{
+   "headers":
+   {
+      "Authorization":"putjwttokenhere"
+   }
+}
+```
+
 ```POST api/posts/ ``` 
 
 Post Request Body example:  
